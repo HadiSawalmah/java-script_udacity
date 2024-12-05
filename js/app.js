@@ -14,91 +14,61 @@
 */
 
 /**
- * Comments should be present at the beginning of each procedure and class.
- * Great to have comments before crucial code sections within the procedure.
-*/
-
-/**
  * Define Global Variables
-
 */
-const allSections = document.querySelectorAll('section');
-const navigationMenu = document.getElementById('navbar__list');
-
+const sections = document.querySelectorAll('section');
+const navbarList = document.getElementById('navbar__list');
 
 /**
- * End Global Variables
- * Start Helper Functions
- * 
+ * Helper Functions
 */
-
-    function isElementInView(element) {
-        const ClientRect = element.getBoundingClientRect();
-        return (
-        ClientRect.top >= 0 &&
-        ClientRect.left >= 0 &&
-        ClientRect.right <= (window.innerWidth || document.documentElement.clientWidth)&&
-        ClientRect.bottom <= (window.innerHeight || document.documentElement.clientHeight) 
-        );
-    }
-    
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
-    allSections.forEach(section => {
-        const menuItem = document.createElement('li');
-        const menuLink = document.createElement('a');
-        menuLink.textContent = section.getAttribute('data-nav');
-        menuLink.setAttribute('href', `#${section.id}`);
-        menuLink.classList.add('menu__link');
-        menuItem.appendChild(menuLink);
-        navigationMenu.appendChild(menuItem);
-    });
-        
-// Add class 'active' to section when near top of viewport
-function activateSection() {
-    allSections.forEach(section => {
-        const boxes = section.getBoundingClientRect();
-        if (boxes.top <= 150 && boxes.bottom >= 150) {
-            section.classList.add('your-active-class');
-            document.querySelector(`a[href="#${section.id}"]`).classList.add('active');
-        } else {
-            section.classList.remove('your-active-class');
-            document.querySelector(`a[href="#${section.id}"]`).classList.remove('active');
-        }
-    });
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
 }
 
-// Scroll to anchor ID using scrollTO event
-function navigateToSection() {
-    document.querySelectorAll('.menu__link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const section = document.querySelector(link.getAttribute('href'));
-            section.scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-}
-
-
 /**
- * End Main Functions
-    * Begin Events
-    * 
-    */
+ * Main Functions
+*/
+// Build the nav
+sections.forEach(section => {
+  const listItem = document.createElement('li');
+  const anchor = document.createElement('a');
+  anchor.textContent = section.getAttribute('data-nav');
+  anchor.setAttribute('href', `#${section.id}`);
+  anchor.classList.add('menu__link');
+  listItem.appendChild(anchor);
+  navbarList.appendChild(listItem);
 
-    // Build menu 
-
-// Scroll to section on link click
-navigateToSection();
+  // Scroll to section on link click
+  anchor.addEventListener('click', (e) => {
+    e.preventDefault();
+    section.scrollIntoView({ behavior: 'smooth' });
+  });
+});
 
 // Set sections as active
+function makeActive() {
+  sections.forEach(section => {
+    const box = section.getBoundingClientRect();
+    if (box.top <= 150 && box.bottom >= 150) {
+      section.classList.add('your-active-class');
+      document.querySelector(`a[href="#${section.id}"]`).classList.add('active');
+    } else {
+      section.classList.remove('your-active-class');
+      document.querySelector(`a[href="#${section.id}"]`).classList.remove('active');
+    }
+  });
+}
 
+// Add class 'active' to section when near top of viewport
 document.addEventListener('scroll', () => {
-    activateSection();
+  makeActive();
 });
+
+makeActive();

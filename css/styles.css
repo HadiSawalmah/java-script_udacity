@@ -8,6 +8,12 @@
  *
 */
 
+@media only screen and (max-device-width: 550px) {
+#navbar__list {
+    flex-wrap: wrap;
+    /* margin-bottom: 100px; */
+}
+}   
 
 /* ---- Base Rules ---- */
 body {
@@ -70,11 +76,8 @@ section {
     text-align: right;
 }
 
-.navbar__menu li {
-    display: inline-block;
-}
-
 .navbar__menu .menu__link {
+    white-space: nowrap;
     display: block;
     padding: 1em;
     font-weight: bold;
@@ -90,13 +93,33 @@ section {
 
 /* Header Styles */
 .page__header {
-    background: #fff;
+    background: #f7f7f7;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 5;
 }
-
+ul li .active {
+  border: 1px solid red;
+  border-radius: 10px;
+}
+nav ul {
+  display: flex;
+}
+nav ul li {
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 40px;
+  margin: 1.5%;
+  cursor: pointer;
+}
+nav ul li:hover {
+  color: #fff;
+  background-color: #000;
+}
 /* Footer Styles */
 .page__footer {
     background: #000;
